@@ -1,4 +1,4 @@
-import { ChevronDown } from "lucide-react"
+// import { ChevronDown } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import LoginModal from "./LoginModal"
@@ -27,14 +27,14 @@ const Navbar:React.FC<NavbarProps> = ({showProcessedMedia, setShowProcessedMedia
                         </svg>
                         <span className="ml-2 text-xl font-bold text-gray-900">Vidnoz</span>
                     </div>
-                    <nav className="hidden md:flex space-x-4">
+                    {/* <nav className="hidden md:flex space-x-4">
                         <a href="#" className="text-gray-500 hover:text-gray-900">Features <ChevronDown className="inline h-4 w-4" /></a>
                         <a href="#" className="text-gray-500 hover:text-gray-900">Free AI Tools <ChevronDown className="inline h-4 w-4" /></a>
                         <a href="#" className="text-gray-500 hover:text-gray-900">Use Cases <ChevronDown className="inline h-4 w-4" /></a>
                         <a href="#" className="text-gray-500 hover:text-gray-900">Pricing <ChevronDown className="inline h-4 w-4" /></a>
                         <a href="#" className="text-gray-500 hover:text-gray-900">For Business <ChevronDown className="inline h-4 w-4" /></a>
                         <a href="#" className="text-gray-500 hover:text-gray-900">Company <ChevronDown className="inline h-4 w-4" /></a>
-                    </nav>
+                    </nav> */}
                     <div className="flex items-center">
                         {loggedIn ? (
                         <Button variant="ghost" className="text-gray-700 mr-4" onClick={toggleProcessedMedia}> Welcome, ADMIN 1</Button>

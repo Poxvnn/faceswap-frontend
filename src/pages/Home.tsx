@@ -64,10 +64,10 @@ const Home = () => {
                 <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">AI Face Swap & Clothes Change</h1>
                 <p className="text-center text-gray-600 mb-8">Upload your photos or videos to swap faces or change clothes. Be whoever you want to be!</p>
 
-                <div className="flex justify-center space-x-2 mb-8">
-                    <Button className={`${activeTab === 'photo' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700'}`} onClick={() => setActiveTab('photo')}>Photo Face Swap</Button>
-                    <Button className={`${activeTab === 'video' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700'}`}onClick={() => setActiveTab('video')}>Video Face Swap</Button>
-                    <Button className={`${activeTab === 'clothes' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700'}`}onClick={() => setActiveTab('clothes')}>Change Clothes</Button>
+                <div className="flex flex-col sm:flex-row sm:justify-center space-y-2 sm:space-y-0 sm:space-x-2 mb-8">
+                    <Button className={`${activeTab === 'photo' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('photo')}>Photo Face Swap</Button>
+                    <Button className={`${activeTab === 'video' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('video')}>Video Face Swap</Button>
+                    <Button className={`${activeTab === 'clothes' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('clothes')}>Change Clothes</Button>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-8">
