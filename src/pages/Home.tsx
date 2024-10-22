@@ -1,34 +1,19 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
-import { Image as ImageIcon, Info, Video, Shirt } from "lucide-react"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Image as ImageIcon, Info, Video } from "lucide-react"
 import Navbar from '@/components/home/Navbar'
+import PhotoSwap from '@/components/home/PhotoSwap'
+import VideoFaceSwap from '@/components/home/VideoFaceSwap'
+import ChangeClothes from '@/components/home/ChangeClothes'
+import Suggested from '@/components/home/Suggested'
+import MyVideos from '@/components/home/MyVideos'
 
 const Home = () => {
-  const [activeTab, setActiveTab] = useState<'photo' | 'video' | 'clothes'>('photo')
-  const [sourceFile, setSourceFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const sourceInputRef = useRef<HTMLInputElement>(null)
-  const [showProcessedMedia, setShowProcessedMedia] = useState(false)
-  const [clothesDescription, setClothesDescription] = useState('')
-
-  const handleSourceUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      setSourceFile(file)
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
-    }
-    //This should be removed in the final version
-    console.log(sourceFile);
-  }
-
-  const triggerSourceUpload = () => {
-    sourceInputRef.current?.click()
-  }
+  const [activeTab, setActiveTab] = useState<'photo' | 'video' | 'clothes' | 'suggested' | 'my-videos'>('photo');
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [previewTargetUrl, setPreviewTargetUrl] = useState<string | null>(null);
+  const [showProcessedMedia, setShowProcessedMedia] = useState(false);
 
   const processedMedia = [
     { id: 1, type: 'video', name: 'Video 1', createdAt: '2023-06-01', expiresAt: '2023-07-01' },
@@ -68,89 +53,41 @@ const Home = () => {
                     <Button className={`${activeTab === 'photo' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('photo')}>Photo Face Swap</Button>
                     <Button className={`${activeTab === 'video' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('video')}>Video Face Swap</Button>
                     <Button className={`${activeTab === 'clothes' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('clothes')}>Change Clothes</Button>
+                    <Button className={`${activeTab === 'suggested' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('suggested')}>Suggested</Button>
+                    <Button className={`${activeTab === 'my-videos' ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:text-purple-600 hover:bg-[#F6F6F6]'}`} onClick={() => setActiveTab('my-videos')}>My Videos</Button>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-8">
-                    <div className="md:w-1/2">
-                        {previewUrl ? (
-                        <div className="mb-4"> {activeTab === 'video' ? (<video src={previewUrl} controls className="w-full rounded-lg shadow-lg" />) : (<img src={previewUrl} alt="Uploaded source" className="w-full rounded-lg shadow-lg" />)}</div>
-                        ) : (
-                        <div className="relative mb-4">
-                            <img src="/placeholder.svg?height=400&width=600" alt="Face swap example" className="w-full rounded-lg shadow-lg" />
-                            <div className="absolute bottom-4 left-4 bg-white rounded-full p-2 shadow-md">
-                                <img src="/placeholder.svg?height=60&width=60" alt="Original face" className="w-15 h-15 rounded-full" />
-                            </div>
-                        </div>
-                        )}
-                        <p className="mt-4 text-sm text-gray-500 flex items-center"> <Info className="w-4 h-4 mr-1" /> Disclaimer: This AI service is for personal entertainment only. Please do not distribute or use the modified content for illegal purposes.</p>
+                  {
+                  (activeTab === 'video' || activeTab === 'photo' || activeTab === 'clothes') &&
+                    <div className="md:w-1/2 flex-1 ">
+                        {previewUrl && (
+                        <>
+                        <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">Source Photo</h1>
+                        <div className="mb-4"> {activeTab === 'video' ? (<video src={previewUrl} controls className="w-full rounded-lg shadow-lg h-[500px] object-contain" />) : (<img src={previewUrl} alt="Uploaded source" className="w-full h-[500px] object-contain rounded-lg shadow-lg" />)}</div>
+                        </>
+                        )
+                        }
+                        {previewTargetUrl && (
+                        <>
+                        <h1 className="text-4xl font-bold text-center text-gray-900 mb-4">Target Photo</h1>
+                        <div className="mb-4"> {activeTab === 'video' ? (<video src={previewTargetUrl} controls className="w-full rounded-lg shadow-lg" />) : (<img src={previewTargetUrl} alt="Uploaded source" className="w-full h-[500px] object-contain rounded-lg shadow-lg" />)}</div>
+                        </>
+                        )
+                        }
+                        <p className="mt-4 text-sm text-gray-500 flex items-center "> <Info className="w-4 h-4 mr-1" /> Disclaimer: This AI service is for personal entertainment only. Please do not distribute or use the modified content for illegal purposes.</p>
                     </div>
+                  }
 
                 <div className="md:w-1/2">
-                    <Card className="w-full">
-                        <CardContent className="p-6">
-                            <div className="space-y-6">
-                                <div className="space-y-2">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold"> 1</div>
-                                        <h3 className="font-medium text-gray-700">{activeTab === 'clothes' ? 'Upload a full-body photo' : activeTab === 'photo' ? 'Upload a photo with a face (Source image)' : 'Upload a video with a face (Source video)'}</h3>
-                                    </div>
-                                    <input type="file" ref={sourceInputRef} className="hidden" onChange={handleSourceUpload} accept={activeTab === 'video' ? "video/*" : "image/*"}/>
-                                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white" onClick={triggerSourceUpload}>
-                                        {activeTab === 'video' ? (
-                                            <> <Video className="w-4 h-4 mr-2" /> Upload Source Video </>
-                                        ) : (
-                                            <> <ImageIcon className="w-4 h-4 mr-2" /> Upload Source Photo</>
-                                        )}
-                                    </Button>
-                                    <p className="text-xs text-gray-500">
-                                        {activeTab === 'video' ? 'Video: Max 100 MB (Upgrade to 500 MB). Drag or upload your GIF or video M4V, MP4, MOV, WEBM' : 'Drag or upload your photo JPG, PNG, WEBP'}
-                                    </p>
-                                </div>
-
-                                {activeTab === 'clothes' ? (
-                                    <div className="space-y-2">
-                                        <div className="flex items-center space-x-2">
-                                            <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold">2</div>
-                                            <h3 className="font-medium text-gray-700">Describe the desired outfit</h3>
-                                        </div>
-                                        <div>
-                                            <Label htmlFor="clothesDescription">Outfit Description</Label>
-                                            <Textarea id="clothesDescription" placeholder="E.g., wearing a red dress, blue jeans with a white t-shirt, formal suit with a tie, etc." value={clothesDescription} onChange={(e) => setClothesDescription(e.target.value)} rows={4}/>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-2">
-                                        <div className="flex items-center space-x-2">
-                                            <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold">2</div>
-                                            <h3 className="font-medium text-gray-700">Upload a photo with a face (Target face image)</h3>
-                                        </div>
-                                        <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white"> <ImageIcon className="w-4 h-4 mr-2" />Upload Target Photo</Button>
-                                        <p className="text-xs text-gray-500"> Drag or upload your photo JPG, PNG, WEBP</p>
-                                    </div>
-                                )}
-
-                                <div className="space-y-2">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-sm font-bold">3</div>
-                                        <h3 className="font-medium text-gray-700">{activeTab === 'clothes' ? 'Click Change Clothes Now to start' : 'Click Swap Face Now to start'}</h3>
-                                    </div>
-                                    <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                                        {activeTab === 'clothes' ? ( <> <Shirt className="w-4 h-4 mr-2" /> Change Clothes Now </> ) : ('Swap Face Now')}
-                                    </Button>
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm text-gray-600">High quality</span>
-                                        <div className="flex items-center space-x-2">
-                                            <span className="text-xs font-medium bg-purple-100 text-purple-800 px-2 py-1 rounded">{activeTab === 'photo' ? 'HD' : '1080P'}</span>
-                                            <Switch />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                    </div>
+                  <PhotoSwap active={activeTab === 'photo'} setPreviewUrl={setPreviewUrl} setPreviewTargetUrl={setPreviewTargetUrl} />
+                  <VideoFaceSwap active={activeTab === 'video'} setPreviewUrl={setPreviewUrl} setPreviewTargetUrl={setPreviewTargetUrl} />
+                  <ChangeClothes active={activeTab === 'clothes'} setPreviewUrl={setPreviewUrl} />
+                  <Suggested active={activeTab === 'suggested'} goToVideo={() => setActiveTab('video')} setPreviewTargetUrl={setPreviewTargetUrl}/>
+                  <MyVideos active={activeTab === 'my-videos'} />
                 </div>
-            </>
+            </div>
+        </>
         )}
     </main>
     </div>

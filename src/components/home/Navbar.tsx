@@ -12,6 +12,8 @@ const Navbar:React.FC<NavbarProps> = ({showProcessedMedia, setShowProcessedMedia
     const [loggedIn, setLoggedIn] = useState(false)
     const [isLoginOpen, setIsLoginOpen] = useState(false)
 
+    const [modalToOpen, setModalToOpen] = useState<'login' | 'sign-up' | 'hidden'>('hidden');
+
 
     const toggleProcessedMedia = () => {
         setShowProcessedMedia(!showProcessedMedia)
@@ -39,14 +41,14 @@ const Navbar:React.FC<NavbarProps> = ({showProcessedMedia, setShowProcessedMedia
                         {loggedIn ? (
                         <Button variant="ghost" className="text-gray-700 mr-4" onClick={toggleProcessedMedia}> Welcome, ADMIN 1</Button>
                         ) : (
-                        <Button variant="ghost" className="text-gray-500 hover:text-gray-900 mr-4" onClick={() => setIsLoginOpen(true)}>Login</Button>
+                        <Button variant="ghost" className="text-gray-500 hover:text-gray-900 mr-4" onClick={() => {setIsLoginOpen(true); setModalToOpen('login')}}>Login</Button>
                         )}
                         <Button className="bg-purple-600 hover:bg-purple-700 text-white">{loggedIn ? 'ADMIN 1' : 'Create Free AI Video'}</Button>
                     </div>
                 </div>
             </div>
         </header>
-        <LoginModal isLoginOpen={isLoginOpen} setIsLoginOpen={setIsLoginOpen} setLoggedIn={setLoggedIn} />
+        <LoginModal isLoginOpen={modalToOpen === 'login'} setIsLoginOpen={setModalToOpen} setLoggedIn={setLoggedIn} />
      </>)
 }
 
