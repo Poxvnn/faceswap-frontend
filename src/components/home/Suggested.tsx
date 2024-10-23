@@ -1,3 +1,5 @@
+import { useGetSuggested } from "@/hooks/useSwap";
+
 interface SuggestedProps {
     active: boolean;
     goToVideo: () => void;
@@ -5,6 +7,8 @@ interface SuggestedProps {
 }
 
 const Suggested: React.FC<SuggestedProps> = ({active, goToVideo, setPreviewTargetUrl}) => {
+
+    const { data } = useGetSuggested();
     
     return (
         <>
